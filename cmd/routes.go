@@ -13,9 +13,9 @@ import (
 	"notification_service/internals/services"
 	"notification_service/internals/socket"
 
-	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	socketio "github.com/googollee/go-socket.io"
+	"github.com/gorilla/mux"
 	"github.com/mailgun/mailgun-go/v4"
 	"github.com/tbalthazar/onesignal-go"
 )
@@ -35,7 +35,7 @@ import (
 // 	})
 // }
 
-func (app *application) Routes() (http.Handler, socketio.Server) {
+func (app *application) Routes() (mux.Router, socketio.Server) {
 
 	model, err := models.RegisterModel(app.logs)
 	mailgun := mailgun.NewMailgun(os.Getenv("MAILGUN_DOMAIN"), os.Getenv("MAILGUN_API_KEY"))
@@ -47,7 +47,7 @@ func (app *application) Routes() (http.Handler, socketio.Server) {
 		app.logs.ErrorLogs.Panicln(err)
 	}
 	handle := &appHandlers.Handler{
-		Handler: chi.NewRouter(),
+		Handler: *mux.NewRouter(),
 		Services: &services.Services{
 			Logs:      *app.logs,
 			Models:    model,
@@ -78,13 +78,13 @@ func (app *application) Routes() (http.Handler, socketio.Server) {
 	})
 
 	handle.Handler.Handle("/socket.io/", &socket.Websocket.Socket)
-	handle.TriggerRoutes()
-	handle.OrganizationSettingsRoutes()
-	handle.UserMobileSettingsRoutes()
+	// handle.TriggerRoutes()
+	// handle.OrganizationSettingsRoutes()
+	// handle.UserMobileSettingsRoutes()
 	handle.OrganizationNotificationRoutes()
-	handle.UserSeenNotificationRoutes()
+	// handle.UserSeenNotificationRoutes()
 
-	handle.Handler.NotFound(func(response http.ResponseWriter, request *http.Request) {
+	handle.Handler.NotFoundHandler = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
 
 		handle.Responses.ErrorRespond(response, &responses.ErrorResponse{
 			Status:  http.StatusNotFound,
