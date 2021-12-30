@@ -1,1 +1,1 @@
-web: bin/notification-go
+web: notification_service
