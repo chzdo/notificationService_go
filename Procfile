@@ -1,1 +1,1 @@
-web: notification_service/cmd
+web: cmd/
