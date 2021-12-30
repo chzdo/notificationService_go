@@ -3,7 +3,9 @@ package models
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"notification_service/internals/logger"
+	"os"
 	"time"
 
 	"github.com/spf13/viper"
@@ -14,11 +16,12 @@ import (
 
 func RegisterModel(logs *logger.Logger) (map[string]*DBModels, error) {
 
-	db_uri, ok := viper.Get("DB_URI").(string)
+	db_uri := os.Getenv("DB_URI")
+	fmt.Println(db_uri)
 
-	if !ok {
-		logs.ErrorLogs.Println("Could not find DB_URI")
-	}
+	// if !ok {
+	// 	logs.ErrorLogs.Println("Could not find DB_URI")
+	// }
 
 	db_name, ok := viper.Get("DB_NAME").(string)
 	if !ok {
