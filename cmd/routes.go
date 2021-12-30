@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"notification_service/internals/appHandlers"
 	"notification_service/internals/appValidators"
@@ -16,7 +17,7 @@ import (
 	"github.com/go-chi/cors"
 	socketio "github.com/googollee/go-socket.io"
 	"github.com/mailgun/mailgun-go/v4"
-	"github.com/spf13/viper"
+
 	"github.com/tbalthazar/onesignal-go"
 )
 
@@ -38,10 +39,10 @@ import (
 func (app *application) Routes() (http.Handler, socketio.Server) {
 
 	model, err := models.RegisterModel(app.logs)
-	mailgun := mailgun.NewMailgun(viper.GetString("MAILGUN_DOMAIN"), viper.GetString("MAILGUN_API_KEY"))
+	mailgun := mailgun.NewMailgun(os.Getenv("MAILGUN_DOMAIN"), os.Getenv("MAILGUN_API_KEY"))
 	push := onesignal.NewClient(nil)
 
-	push.AppKey = viper.GetString("ONE_SIGNAL_APP_KEY")
+	push.AppKey = os.Getenv("ONE_SIGNAL_APP_KEY")
 
 	if err != nil {
 		app.logs.ErrorLogs.Panicln(err)

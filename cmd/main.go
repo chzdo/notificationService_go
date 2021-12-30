@@ -6,13 +6,12 @@ import (
 	"notification_service/internals/logger"
 	"sync"
 
-	"github.com/spf13/viper"
+	"github.com/joho/godotenv"
 )
 
 func init() {
-	viper.SetConfigFile(".env")
 
-	viper.ReadInConfig()
+	godotenv.Load()
 }
 
 var wg sync.WaitGroup

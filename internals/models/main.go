@@ -3,12 +3,10 @@ package models
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"notification_service/internals/logger"
 	"os"
 	"time"
 
-	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -17,16 +15,12 @@ import (
 func RegisterModel(logs *logger.Logger) (map[string]*DBModels, error) {
 
 	db_uri := os.Getenv("DB_URI")
-	fmt.Println(db_uri)
 
 	// if !ok {
 	// 	logs.ErrorLogs.Println("Could not find DB_URI")
 	// }
 
-	db_name, ok := viper.Get("DB_NAME").(string)
-	if !ok {
-		logs.ErrorLogs.Println("Could not find DB_NAME")
-	}
+	db_name := os.Getenv("DB_NAME")
 
 	clientOption := options.Client().ApplyURI(db_uri)
 

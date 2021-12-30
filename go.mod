@@ -8,10 +8,12 @@ require (
 	github.com/go-playground/validator/v10 v10.9.0
 	github.com/googollee/go-socket.io v1.6.1
 	github.com/mailgun/mailgun-go/v4 v4.6.0
-	github.com/spf13/viper v1.10.1
+
 	github.com/tbalthazar/onesignal-go v0.0.0-20160928064723-312530be66c8
 	go.mongodb.org/mongo-driver v1.8.1
 )
+
+require github.com/joho/godotenv v1.4.0 // indirect
 
 require (
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
