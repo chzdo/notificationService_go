@@ -13,7 +13,7 @@ import (
 	"notification_service/internals/services"
 	"notification_service/internals/socket"
 
-	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	socketio "github.com/googollee/go-socket.io"
 	"github.com/mailgun/mailgun-go/v4"

@@ -8,7 +8,7 @@ import (
 	"notification_service/internals/responses"
 	"strconv"
 
-	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi"
 )
 
 func (service *Services) CreateUserSeenNotification(request *http.Request) (*responses.SuccessResponse, *responses.ErrorResponse) {

@@ -3,7 +3,6 @@ module notification_service
 go 1.12
 
 require (
-	github.com/go-chi/chi/v5 v5.0.0
 	github.com/go-chi/cors v1.2.0
 	github.com/go-playground/validator/v10 v10.9.0
 	github.com/googollee/go-socket.io v1.6.1
@@ -13,6 +12,7 @@ require (
 )
 
 require (
+	github.com/go-chi/chi v1.5.4
 	github.com/golang/snappy v0.0.3 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
