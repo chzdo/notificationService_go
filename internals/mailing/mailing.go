@@ -5,10 +5,10 @@ import (
 	"context"
 	"fmt"
 	"html/template"
+	"os"
 	"time"
 
 	"github.com/mailgun/mailgun-go/v4"
-	"github.com/spf13/viper"
 )
 
 type Mailer struct {
@@ -17,11 +17,11 @@ type Mailer struct {
 
 func (mailer *Mailer) SendMail(metadata MailMetaData) error {
 
-	sender, ok := viper.Get("APP_DEFAULT_EMAIL").(string)
+	sender := os.Getenv("APP_DEFAULT_EMAIL")
 
-	if !ok {
-		return fmt.Errorf("mailer : env file not found")
-	}
+	// if !ok {
+	// 	return fmt.Errorf("mailer : env file not found")
+	// }
 
 	from := metadata.SenderPrefix + fmt.Sprintf(" <%s>", sender)
 	mg := mailer.Driver.NewMessage(from, metadata.Subject, "", metadata.Recipients...)

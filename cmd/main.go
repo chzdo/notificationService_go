@@ -5,15 +5,13 @@ import (
 	"log"
 	"notification_service/internals/logger"
 	"sync"
-
-	"github.com/spf13/viper"
 )
 
-func init() {
-	viper.SetConfigFile(".env")
+// func init() {
+// 	viper.SetConfigFile(".env")
 
-	viper.ReadInConfig()
-}
+// 	viper.ReadInConfig()
+// }
 
 var wg sync.WaitGroup
 

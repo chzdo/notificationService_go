@@ -1,7 +1,8 @@
 package pushnotification
 
 import (
-	"github.com/spf13/viper"
+	"os"
+
 	"github.com/tbalthazar/onesignal-go"
 )
 
@@ -11,7 +12,7 @@ type PushNotification struct {
 
 func (p *PushNotification) Push(data PushData) error {
 
-	appID := viper.GetString("ONE_SIGNAL_APP_ID")
+	appID := os.Getenv("ONE_SIGNAL_APP_ID")
 
 	notificationReq := &onesignal.NotificationRequest{
 		AppID:    appID,
