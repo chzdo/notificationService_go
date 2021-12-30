@@ -4,11 +4,11 @@ import (
 	"notification_service/internals/responses"
 	"notification_service/internals/services"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 )
 
 type Handler struct {
-	Handler   mux.Router
+	Handler   chi.Router
 	Services  *services.Services
 	Responses *responses.ResponseFunctions
 }

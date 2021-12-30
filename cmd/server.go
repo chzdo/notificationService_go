@@ -11,7 +11,7 @@ func (app *application) serve() error {
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", app.config.port),
-		Handler: &routes,
+		Handler: routes,
 	}
 
 	go socket.Serve()

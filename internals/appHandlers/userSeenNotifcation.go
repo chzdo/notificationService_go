@@ -1,29 +1,31 @@
 package appHandlers
 
-// func (handle *Handler) UserSeenNotificationRoutes() {
+import "net/http"
 
-// 	handle.Handler.Post("/user-seen-notification", func(rw http.ResponseWriter, r *http.Request) {
+func (handle *Handler) UserSeenNotificationRoutes() {
 
-// 		response, err := handle.Services.CreateUserSeenNotification(r)
+	handle.Handler.Post("/user-seen-notification", func(rw http.ResponseWriter, r *http.Request) {
 
-// 		if err != nil {
-// 			handle.Responses.ErrorRespond(rw, err)
-// 			return
-// 		}
+		response, err := handle.Services.CreateUserSeenNotification(r)
 
-// 		handle.Responses.Respond(rw, response)
-// 	})
+		if err != nil {
+			handle.Responses.ErrorRespond(rw, err)
+			return
+		}
 
-// 	handle.Handler.Get("/user-seen-notification/{orgId}/{userId}", func(rw http.ResponseWriter, r *http.Request) {
+		handle.Responses.Respond(rw, response)
+	})
 
-// 		response, err := handle.Services.GetUserSeenNotification(r)
+	handle.Handler.Get("/user-seen-notification/{orgId}/{userId}", func(rw http.ResponseWriter, r *http.Request) {
 
-// 		if err != nil {
-// 			handle.Responses.ErrorRespond(rw, err)
-// 			return
-// 		}
+		response, err := handle.Services.GetUserSeenNotification(r)
 
-// 		handle.Responses.Respond(rw, response)
-// 	})
+		if err != nil {
+			handle.Responses.ErrorRespond(rw, err)
+			return
+		}
 
-// }
+		handle.Responses.Respond(rw, response)
+	})
+
+}

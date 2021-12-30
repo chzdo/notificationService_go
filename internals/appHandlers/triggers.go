@@ -1,75 +1,77 @@
 package appHandlers
 
-// func (handle *Handler) TriggerRoutes() {
+import "net/http"
 
-// 	handle.Handler.Get("/triggers", func(rw http.ResponseWriter, r *http.Request) {
+func (handle *Handler) TriggerRoutes() {
 
-// 		response, err := handle.Services.GetTriggersWithoutTemplates(r)
+	handle.Handler.Get("/triggers", func(rw http.ResponseWriter, r *http.Request) {
 
-// 		if err != nil {
-// 			handle.Responses.ErrorRespond(rw, err)
-// 			return
-// 		}
+		response, err := handle.Services.GetTriggersWithoutTemplates(r)
 
-// 		handle.Responses.Respond(rw, response)
-// 	})
+		if err != nil {
+			handle.Responses.ErrorRespond(rw, err)
+			return
+		}
 
-// 	handle.Handler.Get("/triggers/with-template", func(rw http.ResponseWriter, r *http.Request) {
+		handle.Responses.Respond(rw, response)
+	})
 
-// 		response, err := handle.Services.GetTriggersWithTemplates(r)
+	handle.Handler.Get("/triggers/with-template", func(rw http.ResponseWriter, r *http.Request) {
 
-// 		if err != nil {
-// 			handle.Responses.ErrorRespond(rw, err)
-// 			return
-// 		}
+		response, err := handle.Services.GetTriggersWithTemplates(r)
 
-// 		handle.Responses.Respond(rw, response)
-// 	})
+		if err != nil {
+			handle.Responses.ErrorRespond(rw, err)
+			return
+		}
 
-// 	handle.Handler.Get("/triggers/with-template/{id}", func(rw http.ResponseWriter, r *http.Request) {
+		handle.Responses.Respond(rw, response)
+	})
 
-// 		response, err := handle.Services.GetTriggerWithTemplates(r)
+	handle.Handler.Get("/triggers/with-template/{id}", func(rw http.ResponseWriter, r *http.Request) {
 
-// 		if err != nil {
-// 			handle.Responses.ErrorRespond(rw, err)
-// 			return
-// 		}
+		response, err := handle.Services.GetTriggerWithTemplates(r)
 
-// 		handle.Responses.Respond(rw, response)
-// 	})
+		if err != nil {
+			handle.Responses.ErrorRespond(rw, err)
+			return
+		}
 
-// 	handle.Handler.Put("/triggers/with-template/{id}", func(rw http.ResponseWriter, r *http.Request) {
+		handle.Responses.Respond(rw, response)
+	})
 
-// 		response, err := handle.Services.UpdateTriggersWithTemplates(r)
+	handle.Handler.Put("/triggers/with-template/{id}", func(rw http.ResponseWriter, r *http.Request) {
 
-// 		if err != nil {
-// 			handle.Responses.ErrorRespond(rw, err)
-// 			return
-// 		}
+		response, err := handle.Services.UpdateTriggersWithTemplates(r)
 
-// 		handle.Responses.Respond(rw, response)
-// 	})
-// 	handle.Handler.Post("/triggers", func(rw http.ResponseWriter, r *http.Request) {
+		if err != nil {
+			handle.Responses.ErrorRespond(rw, err)
+			return
+		}
 
-// 		response, err := handle.Services.CreateTriggersWithTemplates(r)
+		handle.Responses.Respond(rw, response)
+	})
+	handle.Handler.Post("/triggers", func(rw http.ResponseWriter, r *http.Request) {
 
-// 		if err != nil {
-// 			handle.Responses.ErrorRespond(rw, err)
-// 			return
-// 		}
+		response, err := handle.Services.CreateTriggersWithTemplates(r)
 
-// 		handle.Responses.Respond(rw, response)
-// 	})
+		if err != nil {
+			handle.Responses.ErrorRespond(rw, err)
+			return
+		}
 
-// 	handle.Handler.Delete("/triggers/with-template/{id}", func(rw http.ResponseWriter, r *http.Request) {
+		handle.Responses.Respond(rw, response)
+	})
 
-// 		response, err := handle.Services.DeleteTriggersWithTemplates(r)
+	handle.Handler.Delete("/triggers/with-template/{id}", func(rw http.ResponseWriter, r *http.Request) {
 
-// 		if err != nil {
-// 			handle.Responses.ErrorRespond(rw, err)
-// 			return
-// 		}
+		response, err := handle.Services.DeleteTriggersWithTemplates(r)
 
-// 		handle.Responses.Respond(rw, response)
-// 	})
-// }
+		if err != nil {
+			handle.Responses.ErrorRespond(rw, err)
+			return
+		}
+
+		handle.Responses.Respond(rw, response)
+	})
+}

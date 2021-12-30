@@ -8,7 +8,7 @@ import (
 	"notification_service/internals/responses"
 	"strconv"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 )
 
 func (service *Services) CreateOrganizationSettings(request *http.Request) (*responses.SuccessResponse, *responses.ErrorResponse) {

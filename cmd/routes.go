@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"os"
 
 	"notification_service/internals/appHandlers"
 	"notification_service/internals/appValidators"
@@ -13,10 +12,11 @@ import (
 	"notification_service/internals/services"
 	"notification_service/internals/socket"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	socketio "github.com/googollee/go-socket.io"
-	"github.com/gorilla/mux"
 	"github.com/mailgun/mailgun-go/v4"
+	"github.com/spf13/viper"
 	"github.com/tbalthazar/onesignal-go"
 )
 
@@ -35,19 +35,19 @@ import (
 // 	})
 // }
 
-func (app *application) Routes() (mux.Router, socketio.Server) {
+func (app *application) Routes() (http.Handler, socketio.Server) {
 
 	model, err := models.RegisterModel(app.logs)
-	mailgun := mailgun.NewMailgun(os.Getenv("MAILGUN_DOMAIN"), os.Getenv("MAILGUN_API_KEY"))
+	mailgun := mailgun.NewMailgun(viper.GetString("MAILGUN_DOMAIN"), viper.GetString("MAILGUN_API_KEY"))
 	push := onesignal.NewClient(nil)
 
-	push.AppKey = os.Getenv("ONE_SIGNAL_APP_KEY")
+	push.AppKey = viper.GetString("ONE_SIGNAL_APP_KEY")
 
 	if err != nil {
 		app.logs.ErrorLogs.Panicln(err)
 	}
 	handle := &appHandlers.Handler{
-		Handler: *mux.NewRouter(),
+		Handler: chi.NewMux(),
 		Services: &services.Services{
 			Logs:      *app.logs,
 			Models:    model,
@@ -78,13 +78,13 @@ func (app *application) Routes() (mux.Router, socketio.Server) {
 	})
 
 	handle.Handler.Handle("/socket.io/", &socket.Websocket.Socket)
-	// handle.TriggerRoutes()
-	// handle.OrganizationSettingsRoutes()
-	// handle.UserMobileSettingsRoutes()
+	handle.TriggerRoutes()
+	handle.OrganizationSettingsRoutes()
+	handle.UserMobileSettingsRoutes()
 	handle.OrganizationNotificationRoutes()
-	// handle.UserSeenNotificationRoutes()
+	handle.UserSeenNotificationRoutes()
 
-	handle.Handler.NotFoundHandler = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+	handle.Handler.NotFound(func(response http.ResponseWriter, request *http.Request) {
 
 		handle.Responses.ErrorRespond(response, &responses.ErrorResponse{
 			Status:  http.StatusNotFound,
