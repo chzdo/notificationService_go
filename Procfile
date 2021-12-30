@@ -1,1 +1,1 @@
-web: bin/notification_service
+web: notification_service/cmd
