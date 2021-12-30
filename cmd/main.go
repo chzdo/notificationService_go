@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"notification_service/internals/logger"
+	"os"
 	"sync"
 
 	"github.com/joho/godotenv"
@@ -34,7 +35,7 @@ func main() {
 		logs:   logs,
 	}
 
-	log.Printf("running on %d\n", app.config.port)
+	log.Printf("running on %s\n", os.Getenv("PORT"))
 	err := app.serve()
 
 	if err != nil {

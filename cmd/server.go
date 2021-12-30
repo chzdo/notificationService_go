@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 )
 
 func (app *application) serve() error {
@@ -10,7 +11,7 @@ func (app *application) serve() error {
 	routes, socket := app.Routes()
 
 	server := &http.Server{
-		Addr:    fmt.Sprintf(":%d", app.config.port),
+		Addr:    fmt.Sprintf(":%s", os.Getenv("PORT")),
 		Handler: routes,
 	}
 
