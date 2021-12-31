@@ -119,7 +119,7 @@ func FileServer(r chi.Router, path string, root http.FileSystem) {
 	r.Get(path, func(w http.ResponseWriter, r *http.Request) {
 		rectx := chi.RouteContext(r.Context())
 		pathprefix := strings.TrimSuffix(rectx.RoutePattern(), "/*")
-		w.Header().Set("Content-Type", "text2/html")
+		w.Header().Set("Content-Type", "text/html")
 		fs := http.StripPrefix(pathprefix, http.FileServer(root))
 		fs.ServeHTTP(w, r)
 	})
