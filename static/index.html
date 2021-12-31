@@ -1,0 +1,32 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+
+    <p>
+    <h1>
+        NOTIFICATION SERVICE WITH GOLANG
+    </h1>
+    </p>
+    <h5>
+        Routes
+    </h5>
+    <ul>
+        <li>/triggers <b> curl -X GET https://notifications-go.herokuapp.com/triggers</b></li>
+        <li>/triggers <b> curl -X POST -H "Content-Type: application/json" -d { name :"DEAL_CREATED" , template:
+                {"emailTemplate":"hello", inApptemplate:"hi"}, subject:"Test"}
+                https://notifications-go.herokuapp.com/triggers</b></li>
+        <li>/with-triggers <b> curl -X GET https://notifications-go.herokuapp.com/triggers/with-template</b></li>
+        <li>/triggers/with-template/{id} <b> curl -X PUT -H "Content-Type: application/json" -d {template:
+                {"emailTemplate":"hello", inApptemplate:"hi"}, subject:"Test"}
+                https://notifications-go.herokuapp.com/triggers</b></li>
+        <li>/with-triggers/{id} <b> curl -X GET https://notifications-go.herokuapp.com/triggers/with-template/2</b></li>
+        <li>/with-triggers/{id} <b> curl -X DELETE https://notifications-go.herokuapp.com/triggers/with-template/2</b>
+        </li>
+    </ul>
+</body>
+
+</html>

@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"notification_service/internals/appHandlers"
 	"notification_service/internals/appValidators"
@@ -69,6 +71,8 @@ func (app *application) Routes() (http.Handler, socketio.Server) {
 	handle.Handler.Use(cors.Handler(cors.Options{
 		AllowedOrigins: []string{"*"},
 	}))
+	workDir, _ := os.Getwd()
+	filesDir := http.Dir(filepath.Join(workDir, "static/"))
 
 	handle.Handler.Use(func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
@@ -77,6 +81,7 @@ func (app *application) Routes() (http.Handler, socketio.Server) {
 		})
 
 	})
+	FileServer(handle.Handler, "/", filesDir)
 
 	handle.Handler.Handle("/socket.io/", &socket.Websocket.Socket)
 	handle.TriggerRoutes()
@@ -96,4 +101,26 @@ func (app *application) Routes() (http.Handler, socketio.Server) {
 	})
 
 	return handle.Handler, socket.Websocket.Socket
+}
+
+func FileServer(r chi.Router, path string, root http.FileSystem) {
+
+	if strings.ContainsAny(path, "{}*") {
+		panic("File Server does not permit any URL Parameters")
+	}
+
+	if path != "/" && path[len(path)-1] != '/' {
+		r.Get(path, http.RedirectHandler(path+"/", 301).ServeHTTP)
+		path += "/"
+	}
+
+	path += "*"
+
+	r.Get(path, func(w http.ResponseWriter, r *http.Request) {
+		rectx := chi.RouteContext(r.Context())
+		pathprefix := strings.TrimSuffix(rectx.RoutePattern(), "/*")
+		w.Header().Set("Content-Type", "text2/html")
+		fs := http.StripPrefix(pathprefix, http.FileServer(root))
+		fs.ServeHTTP(w, r)
+	})
 }
